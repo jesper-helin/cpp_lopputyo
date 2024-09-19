@@ -190,9 +190,13 @@ int searchForReservation(vector<Rooms> rooms, int amountOfRooms)
 bool checkRoomAvailability(int size, vector<Rooms> rooms)
 {
 	int availableRooms{};
+
 	for (int i = 0; i < rooms.size() - 1; i++)
 	{
-		if (rooms[i].size == size && !rooms[i].isReserved) {
+		if(size == 0 && !rooms[i].isReserved) {
+			availableRooms += 1;
+		}
+		else if (rooms[i].size == size && !rooms[i].isReserved) {
 			availableRooms += 1;
 		}
 	}
