@@ -10,7 +10,8 @@
 #include <ctime>
 using namespace std;
 
-class Rooms {
+class Rooms
+{
 public:
 	int reservationNumber;
 	int roomNumber;
@@ -25,15 +26,18 @@ vector<Rooms> populateRooms(int amountOfRooms)
 	std::vector<Rooms> rooms(amountOfRooms);
 
 	// Loop to initialize the rooms array with data
-	for (int i = 0; i <= amountOfRooms - 1; i++) {
+	for (int i = 0; i <= amountOfRooms - 1; i++)
+	{
 		rooms[i].isReserved = 0;
 		rooms[i].roomNumber = i + 1;
 		rooms[i].reservedFor = 0;
 		rooms[i].reservationNumber = 0;
-		if (i < amountOfRooms / 2) {
+		if (i < amountOfRooms / 2)
+		{
 			rooms[i].size = 1;
 		}
-		else {
+		else
+		{
 			rooms[i].size = 2;
 		}
 	}
@@ -46,26 +50,34 @@ bool checkInputIsChar(string input)
 	return input.length() == 1;
 }
 
-int checkInputIsInt() {
+int checkInputIsInt()
+{
 	int input;
 
 	cin >> input;
 
-	while (cin.fail()) {
+	while (cin.fail() || input < 1)
+	{
 		cin.clear();
 		cin.ignore(256, '\n');
+		if (input < 1)
+		{
+			cout << "Anna positiivinen kokonaisluku" << endl;
+		}
 		cin >> input;
 	}
 
 	return input;
 }
 
-string checkInputIsString() {
+string checkInputIsString()
+{
 	string input;
 
 	getline(cin >> ws, input);
 
-	while (cin.fail()) {
+	while (cin.fail())
+	{
 		cin.clear();
 		cin.ignore(256, '\n');
 		getline(cin >> ws, input);
@@ -93,7 +105,8 @@ vector<Rooms> reserveRoom(int roomNumber, vector<Rooms> rooms)
 	reservationNumber = 10000 + rand() % 99999;
 
 	int randomDiscount = rand() % 3;
-	switch (randomDiscount) {
+	switch (randomDiscount)
+	{
 	case 0:
 		discountPercent = 0;
 		break;
@@ -105,25 +118,32 @@ vector<Rooms> reserveRoom(int roomNumber, vector<Rooms> rooms)
 		break;
 	}
 
-
-	if (rooms[roomNumber].size == 1) {
+	if (rooms[roomNumber].size == 1)
+	{
 		totalPrice = singleRoomPrice * howManyNights - ((discountPercent / 100.0) * 100 * howManyNights);
 	}
-	else {
+	else
+	{
 		totalPrice = doubleRoomPrice * howManyNights - ((discountPercent / 100.0) * 150 * howManyNights);
 	}
 
-	cout << "Olet varaamassa huonetta " << rooms[roomNumber].roomNumber << ". "
-		<< howManyNights << " yon hinnaksi tulee " << totalPrice
-		<< ", johon on laskettu " << discountPercent << " % alennus."
-		<< " Varaus tehdaan nimella " << reservationName << ", ja varauksen numero on " << reservationNumber
-		<< ". Haluatko varata huoneen (y, e)" << endl;
+	cout << "Varauksen tiedot:" << endl
+		 << "-----------------------------" << endl
+		 << "Huoneen numero: " << rooms[roomNumber].roomNumber << endl
+		 << "Varauksen kesto: " << howManyNights << " yota" << endl
+		 << "Kokonaishinta, johon laskettu " << discountPercent << " % alennus: " << totalPrice << endl
+		 << "Varaajan nimi: " << reservationName << endl 
+		 << "Varausnumero: " << reservationNumber << endl
+		 << "Haluatko varata huoneen (y, e)" << endl;
 
-	while (true) {
+	while (true)
+	{
 		cin >> userInput;
 
-		if (checkInputIsChar(userInput)) {
-			if (userInput == "y" || userInput == "Y") {
+		if (checkInputIsChar(userInput))
+		{
+			if (userInput == "y" || userInput == "Y")
+			{
 				rooms[roomNumber].customerName = reservationName;
 				rooms[roomNumber].reservationNumber = reservationNumber;
 				rooms[roomNumber].reservedFor = howManyNights;
@@ -132,11 +152,14 @@ vector<Rooms> reserveRoom(int roomNumber, vector<Rooms> rooms)
 				cout << "Huone varattu. Kiitos asioinnista! Palautetaan etusivulle...\n\n";
 				break;
 			}
-			else if (userInput == "e" || userInput == "E") {
-				cout << "Huonetta ei varattu. Palaat etusivulle... Kiitos asioinnista!\n" << endl;
+			else if (userInput == "e" || userInput == "E")
+			{
+				cout << "Huonetta ei varattu. Palaat etusivulle... Kiitos asioinnista!\n"
+					 << endl;
 				break;
 			}
-			else {
+			else
+			{
 				continue;
 			}
 		}
@@ -153,33 +176,41 @@ int searchForReservation(vector<Rooms> rooms, int amountOfRooms)
 	cout << "Hae varausta joko (v)araajan nimella tai varaus(n)umerolla (v, n)" << endl;
 	cin >> choiceInput;
 
-	if (checkInputIsChar(choiceInput)) {
-		if (choiceInput == "v" || choiceInput == "V") {
+	if (checkInputIsChar(choiceInput))
+	{
+		if (choiceInput == "v" || choiceInput == "V")
+		{
 			cout << "Syota varaajan nimi" << endl;
 			searchInput = checkInputIsString();
 
 			// Loop through all the rooms to find the searched room.
 			// Bad implementation, but couldnt get a lambda func to work
-			for (int i = 0; i < amountOfRooms; i++) {
-				if (rooms[i].customerName == searchInput) {
+			for (int i = 0; i < amountOfRooms; i++)
+			{
+				if (rooms[i].customerName == searchInput)
+				{
 					cout << "Haulla loytyi huone " << rooms[i].roomNumber << ", jonka varausnumero on "
-						<< rooms[i].reservationNumber << ". Huone on varattu " << rooms[i].reservedFor << " yoksi." << endl;
+						 << rooms[i].reservationNumber << ". Huone on varattu " << rooms[i].reservedFor << " yoksi." << endl;
 				}
 			}
 		}
-		else if (choiceInput == "N" || choiceInput == "n") {
+		else if (choiceInput == "N" || choiceInput == "n")
+		{
 			cout << "Syota varauksen numero" << endl;
 			int searchInput = checkInputIsInt();
 			cout << searchInput << endl;
 
-			for (int i = 0; i < amountOfRooms; i++) {
-				if (rooms[i].reservationNumber == searchInput) {
+			for (int i = 0; i < amountOfRooms; i++)
+			{
+				if (rooms[i].reservationNumber == searchInput)
+				{
 					cout << "Haulla loytyi huone " << rooms[i].roomNumber << ", jonka varaaja on "
-						<< rooms[i].customerName << ". Huone on varattu " << rooms[i].reservedFor << " yoksi." << endl;
+						 << rooms[i].customerName << ". Huone on varattu " << rooms[i].reservedFor << " yoksi." << endl;
 				}
 			}
 		}
-		else {
+		else
+		{
 			cout << "Vaara syote. Palataan etusivulle..." << endl;
 			return 0;
 		}
@@ -193,15 +224,19 @@ bool checkRoomAvailability(int size, vector<Rooms> rooms)
 
 	for (int i = 0; i < rooms.size() - 1; i++)
 	{
-		if(size == 0 && !rooms[i].isReserved) {
+		if (size == 0 && !rooms[i].isReserved)
+		{
 			availableRooms += 1;
 		}
-		else if (rooms[i].size == size && !rooms[i].isReserved) {
+		else if (rooms[i].size == size && !rooms[i].isReserved)
+		{
 			availableRooms += 1;
 		}
 	}
-	if (availableRooms > 0) return true;
-	else return false;
+	if (availableRooms > 0)
+		return true;
+	else
+		return false;
 }
 
 int main()
@@ -228,78 +263,95 @@ int main()
 	cout << rooms.back().roomNumber << endl;
 
 	cout << "Tervetuloa huonevarausjarjestelmaan." << endl;
-	while (continueReserving) {
+	while (continueReserving)
+	{
 		int selected = 4;
 		int selectedRoomSize;
 		string input;
 
 		cout << "Arvo huone, tai valitse yhden / kahden hengen huone (a, y, k)."
-			<< "Voit myos hakea varausta varausnumerolla tai varaajan nimella (h)" << endl;
+			 << "Voit myos hakea varausta varausnumerolla tai varaajan nimella (h)" << endl;
 		cin >> input;
 
-		// Check whether input matches predefined restrictions, 
+		// Check whether input matches predefined restrictions,
 		// throw error if wrong input
-		if (checkInputIsChar(input)) {
-			if (input == "a" || input == "A") {
+		if (checkInputIsChar(input))
+		{
+			if (input == "a" || input == "A")
+			{
 				selected = 1;
 			}
-			else if (input == "y" || input == "Y") {
+			else if (input == "y" || input == "Y")
+			{
 				selected = 2;
 			}
-			else if (input == "k" || input == "K") {
+			else if (input == "k" || input == "K")
+			{
 				selected = 3;
 			}
-			else if (input == "h" || input == "H") {
+			else if (input == "h" || input == "H")
+			{
 				selected = 4;
 			}
-			else {
+			else
+			{
 				cout << "Vaara syote, yrita uudestaan" << endl;
 				continue;
 			}
 		}
 		// Handle user choice
-		switch (selected) {
+		switch (selected)
+		{
 		case 1:
 		{
-			if (checkRoomAvailability(0, rooms)) {
+			if (checkRoomAvailability(0, rooms))
+			{
 				// Choose a random room. If the room is already reserved
 				// keep randomizing until a free one is found
 
-				for (int i = 0; i < rooms.size() - 1; i++) {
+				for (int i = 0; i < rooms.size() - 1; i++)
+				{
 					int randomRoomNumber = 1 + rand() % amountOfRooms;
-					if (!rooms[randomRoomNumber].isReserved) {
+					if (!rooms[randomRoomNumber].isReserved)
+					{
 						cout << "Huonetta " << randomRoomNumber << " ei ole varattu" << endl;
 					}
-					else {
+					else
+					{
 						continue;
 					}
 
 					// - 1 from randomRoomNumber, because rooms is a vector
 					cout << "Jarjestelma on arponut huoneen " << rooms[randomRoomNumber - 1].roomNumber << ", joka on "
-						<< rooms[randomRoomNumber].size << " hengen huone. Arvo uusi huone tai varaa valittu (a, v)" << endl;
+						 << rooms[randomRoomNumber].size << " hengen huone. Arvo uusi huone tai varaa valittu (a, v)" << endl;
 
 					// Check if user reserved room, so that we can exit from loop
 					bool roomReserved = false;
 
-					while (true) {
+					while (true)
+					{
 						cin >> input;
-						if (checkInputIsChar(input)) {
-							if (input == "a" || input == "A") {
+						if (checkInputIsChar(input))
+						{
+							if (input == "a" || input == "A")
+							{
 								break;
 							}
-							else if (input == "v" || input == "V") {
+							else if (input == "v" || input == "V")
+							{
 								rooms = reserveRoom(randomRoomNumber, rooms);
 								roomReserved = true;
 								break;
 							}
 						}
-
 					}
 
-					if (roomReserved) break;
+					if (roomReserved)
+						break;
 				}
 			}
-			else {
+			else
+			{
 				cout << "Jarjestelmassa ei vapaita huoneita. Palataan etusivulle..." << endl;
 			}
 
@@ -308,39 +360,48 @@ int main()
 		case 2:
 			// single room
 			selectedRoomSize = 1;
-			if (checkRoomAvailability(selectedRoomSize, rooms)) {
+			if (checkRoomAvailability(selectedRoomSize, rooms))
+			{
 				int chosenRoomNumber;
 
 				cout << "Hae vapaita huoneita " << rooms.front().roomNumber << "-" << rooms.back().roomNumber / 2 << endl;
 
-				while (true) {
+				while (true)
+				{
 					chosenRoomNumber = checkInputIsInt() - 1;
 
-					if (chosenRoomNumber < 1 || chosenRoomNumber >= amountOfRooms) {
+					if (chosenRoomNumber + 1 < 1 || chosenRoomNumber >= amountOfRooms)
+					{
 						cout << "Huoneen numerolla " << chosenRoomNumber + 1 << " ei loytynyt huoneita. Yrita uudestaan" << endl;
 						continue;
 					}
 
-					if (rooms[chosenRoomNumber].isReserved) {
+					if (rooms[chosenRoomNumber].isReserved)
+					{
 						cout << chosenRoomNumber + 1 << " huone on varattu. Hae toista huonetta..." << endl;
 						continue;
 					}
 
-					if (chosenRoomNumber >= rooms.back().roomNumber / 2 && chosenRoomNumber <= rooms.back().roomNumber) {
+					if (chosenRoomNumber >= rooms.back().roomNumber / 2 && chosenRoomNumber <= rooms.back().roomNumber)
+					{
 						cout << "Valitsemasi huone on kahden hengen huone. Voit jatkaa tai peruuttaa (j, p)" << endl;
 
 						string continueInput;
 
 						cin >> continueInput;
-						if (checkInputIsChar(continueInput)) {
-							if (continueInput == "j" || continueInput == "J") {
+						if (checkInputIsChar(continueInput))
+						{
+							if (continueInput == "j" || continueInput == "J")
+							{
 								rooms = reserveRoom(chosenRoomNumber, rooms);
 								break;
 							}
-							else if (continueInput == "p" || continueInput == "P") {
+							else if (continueInput == "p" || continueInput == "P")
+							{
 								break;
 							}
-							else {
+							else
+							{
 								cout << "Vaara syote. Palataan alkuun..." << endl;
 							}
 						}
@@ -350,46 +411,56 @@ int main()
 					break;
 				}
 			}
-			else {
+			else
+			{
 				cout << "Yhden hengen huoneita ei saatavilla. Palataan etusivulle..." << endl;
 			}
 			break;
 		case 3:
 			// double room
 			selectedRoomSize = 2;
-			if (checkRoomAvailability(selectedRoomSize, rooms)) {
+			if (checkRoomAvailability(selectedRoomSize, rooms))
+			{
 				int chosenRoomNumber;
 
 				cout << "Hae vapaita huoneita " << rooms.back().roomNumber / 2 + 1 << "-" << rooms.back().roomNumber << endl;
 
-				while (true) {
+				while (true)
+				{
 					chosenRoomNumber = checkInputIsInt() - 1;
 
-					if (chosenRoomNumber < 1 || chosenRoomNumber >= amountOfRooms) {
+					if (chosenRoomNumber < 1 || chosenRoomNumber >= amountOfRooms)
+					{
 						cout << "Huoneen numerolla " << chosenRoomNumber + 1 << " ei loytynyt huoneita. Yrita uudestaan" << endl;
 						continue;
 					}
 
-					if (rooms[chosenRoomNumber].isReserved) {
+					if (rooms[chosenRoomNumber].isReserved)
+					{
 						cout << chosenRoomNumber + 1 << " huone on varattu. Hae toista huonetta..." << endl;
 						continue;
 					}
 
-					if (chosenRoomNumber >= rooms.front().roomNumber && chosenRoomNumber < rooms.back().roomNumber / 2) {
+					if (chosenRoomNumber >= rooms.front().roomNumber && chosenRoomNumber < rooms.back().roomNumber / 2)
+					{
 						cout << "Valitsemasi huone on yhden hengen huone. Voit jatkaa tai peruuttaa (j, p)" << endl;
 
 						string continueInput;
 
 						cin >> continueInput;
-						if (checkInputIsChar(continueInput)) {
-							if (continueInput == "j" || continueInput == "J") {
+						if (checkInputIsChar(continueInput))
+						{
+							if (continueInput == "j" || continueInput == "J")
+							{
 								rooms = reserveRoom(chosenRoomNumber, rooms);
 								break;
 							}
-							else if (continueInput == "p" || continueInput == "P") {
+							else if (continueInput == "p" || continueInput == "P")
+							{
 								break;
 							}
-							else {
+							else
+							{
 								cout << "Vaara syote. Palataan alkuun..." << endl;
 							}
 						}
@@ -399,7 +470,8 @@ int main()
 					break;
 				}
 			}
-			else {
+			else
+			{
 				cout << "Yhden hengen huoneita ei saatavilla. Palataan etusivulle..." << endl;
 			}
 			break;
