@@ -92,8 +92,8 @@ vector<Rooms> reserveRoom(int roomNumber, vector<Rooms> rooms)
 	string reservationName;
 	int discountPercent;
 	double totalPrice;
-	int reservationNumber;
 	string userInput;
+	int reservationNumber;
 	int singleRoomPrice = 100;
 	int doubleRoomPrice = 150;
 
@@ -102,7 +102,12 @@ vector<Rooms> reserveRoom(int roomNumber, vector<Rooms> rooms)
 
 	cout << "Milla nimella varaus tehdaan?" << endl;
 	reservationName = checkInputIsString();
-	reservationNumber = 10000 + rand() % 99999;
+	uniform_int_distribution<> reservationNumberRange(10000, 99999);
+
+	random_device rd;
+	mt19937 gen(rd());
+
+	reservationNumber = reservationNumberRange(gen);
 
 	int randomDiscount = rand() % 3;
 	switch (randomDiscount)
