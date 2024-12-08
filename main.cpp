@@ -139,7 +139,7 @@ vector<Rooms> reserveRoom(int roomNumber, vector<Rooms> rooms)
 		 << "Kokonaishinta, johon laskettu " << discountPercent << " % alennus: " << totalPrice << endl
 		 << "Varaajan nimi: " << reservationName << endl 
 		 << "Varausnumero: " << reservationNumber << endl
-		 << "Haluatko varata huoneen (y, e)" << endl;
+		 << "Haluatko varata huoneen (k, e)" << endl;
 
 	while (true)
 	{
@@ -147,13 +147,12 @@ vector<Rooms> reserveRoom(int roomNumber, vector<Rooms> rooms)
 
 		if (checkInputIsChar(userInput))
 		{
-			if (userInput == "y" || userInput == "Y")
+			if (userInput == "k" || userInput == "K")
 			{
 				rooms[roomNumber].customerName = reservationName;
 				rooms[roomNumber].reservationNumber = reservationNumber;
 				rooms[roomNumber].reservedFor = howManyNights;
 				rooms[roomNumber].isReserved = 1;
-				cout << rooms[roomNumber].isReserved << endl;
 				cout << "Huone varattu. Kiitos asioinnista! Palautetaan etusivulle...\n\n";
 				break;
 			}
@@ -264,8 +263,6 @@ int main()
 	// Call populateRooms, that creates a vector of all the rooms in the system in object type.
 	// max index is 259
 	std::vector<Rooms> rooms = populateRooms(amountOfRooms);
-
-	cout << rooms.back().roomNumber << endl;
 
 	cout << "Tervetuloa huonevarausjarjestelmaan." << endl;
 	while (continueReserving)
